@@ -19,6 +19,8 @@
             --border: #e2e8f0;
             --header-height: 70px;
             --sidebar-width: 280px;
+            --sidebar-collapsed-width: 80px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -35,6 +37,11 @@
             grid-template-columns: var(--sidebar-width) 1fr;
             grid-template-rows: var(--header-height) 1fr;
             overflow: hidden;
+            transition: var(--transition);
+        }
+
+        body.collapsed {
+            grid-template-columns: var(--sidebar-collapsed-width) 1fr;
         }
 
         /* Sidebar */
@@ -45,6 +52,8 @@
             display: flex;
             flex-direction: column;
             z-index: 1000;
+            transition: var(--transition);
+            overflow-x: hidden;
         }
 
         .sidebar-header {
@@ -54,6 +63,7 @@
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid rgba(255,255,255,0.05);
+            white-space: nowrap;
         }
 
         .brand-logo {
@@ -67,6 +77,7 @@
             color: white;
             font-weight: 800;
             font-size: 1.2rem;
+            flex-shrink: 0;
         }
 
         .brand-name {
@@ -74,12 +85,19 @@
             font-weight: 800;
             color: white;
             margin-left: 0.75rem;
+            transition: opacity 0.2s;
+        }
+
+        body.collapsed .brand-name {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .sidebar-nav {
             flex: 1;
             padding: 1.5rem 1rem;
             overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .nav-label {
@@ -88,6 +106,12 @@
             text-transform: uppercase;
             color: #475569;
             margin: 1.5rem 0 0.75rem 0.5rem;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+
+        body.collapsed .nav-label {
+            opacity: 0;
         }
 
         .nav-list { list-style: none; }
@@ -104,15 +128,30 @@
             font-size: 0.95rem;
             border-radius: 12px;
             transition: all 0.2s;
+            white-space: nowrap;
         }
 
         .nav-item.active a { background: var(--primary); color: white; }
         .nav-item a:hover:not(.active) { background: var(--sidebar-active); color: white; }
-        .nav-item a svg { width: 20px; height: 20px; stroke-width: 2.5; }
+        .nav-item a svg { width: 20px; height: 20px; stroke-width: 2.5; flex-shrink: 0; }
+
+        .nav-text {
+            transition: opacity 0.2s;
+        }
+
+        body.collapsed .nav-text {
+            opacity: 0;
+            pointer-events: none;
+        }
 
         .sidebar-footer {
             padding: 1.5rem;
             border-top: 1px solid rgba(255,255,255,0.05);
+            white-space: nowrap;
+        }
+
+        body.collapsed .footer-text {
+            display: none;
         }
 
         /* Header */
@@ -127,6 +166,24 @@
         }
 
         .header-left { display: flex; align-items: center; gap: 1rem; }
+
+        .sidebar-toggle {
+            cursor: pointer;
+            padding: 0.5rem;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 8px;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .sidebar-toggle:hover {
+            background: #e2e8f0;
+            color: var(--primary);
+        }
 
         .mobile-toggle {
             display: none;
@@ -173,10 +230,13 @@
             body {
                 grid-template-columns: 1fr;
             }
+            body.collapsed {
+                grid-template-columns: 1fr;
+            }
             aside {
                 position: fixed;
                 top: 0; left: 0; bottom: 0;
-                width: var(--sidebar-width);
+                width: var(--sidebar-width) !important;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
             }
@@ -184,7 +244,15 @@
             header { grid-column: 1 / 2; }
             main { grid-column: 1 / 2; }
             .mobile-toggle { display: block; }
+            .sidebar-toggle { display: none; }
             .close-sidebar { display: block; }
+            
+            body.collapsed .brand-name,
+            body.collapsed .nav-label,
+            body.collapsed .nav-text {
+                opacity: 1 !important;
+                pointer-events: auto !important;
+            }
         }
 
         .close-sidebar {
@@ -228,31 +296,66 @@
             <ul class="nav-list">
                 <li class="nav-item {{ Request::routeIs('admin.dashboard') ? 'active' : '' }}">
                     <a href="{{ route('admin.dashboard') }}">
-                        <i data-lucide="layout-dashboard"></i> Dashboard
+                        <i data-lucide="layout-dashboard"></i> 
+                        <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item {{ Request::routeIs('admin.users.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.users.index') }}">
-                        <i data-lucide="users"></i> User Accounts
+                        <i data-lucide="users"></i> 
+                        <span class="nav-text">Users</span>
                     </a>
                 </li>
             </ul>
 
             <div class="nav-label">Management</div>
             <ul class="nav-list">
-                <li class="nav-item {{ Request::routeIs('admin.posts.*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.posts.index') }}">
-                        <i data-lucide="newspaper"></i> Posts
+                <li class="nav-item {{ Request::is('admin/pages/home*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pages.edit', 'home') }}">
+                        <i data-lucide="home"></i>
+                        <span class="nav-text">Home Page</span>
                     </a>
                 </li>
-                <li class="nav-item {{ Request::routeIs('admin.categories.*') ? 'active' : '' }}">
-                    <a href="{{ route('admin.categories.index') }}">
-                        <i data-lucide="folder-tree"></i> Categories
+                <li class="nav-item {{ Request::is('admin/pages/about-us*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pages.edit', 'about-us') }}">
+                        <i data-lucide="info"></i>
+                        <span class="nav-text">About Us</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ Request::is('admin/pages/history*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pages.edit', 'history') }}">
+                        <i data-lucide="history"></i>
+                        <span class="nav-text">History</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ Request::is('admin/pages/our-program*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pages.edit', 'our-program') }}">
+                        <i data-lucide="graduation-cap"></i>
+                        <span class="nav-text">Our Program</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ Request::is('admin/pages/annual-report*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pages.edit', 'annual-report') }}">
+                        <i data-lucide="file-text"></i>
+                        <span class="nav-text">Annual Report</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ Request::is('admin/pages/publication*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pages.edit', 'publication') }}">
+                        <i data-lucide="book-open"></i>
+                        <span class="nav-text">Publication</span>
+                    </a>
+                </li>
+                <li class="nav-item {{ Request::is('admin/pages/contact*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.pages.edit', 'contact') }}">
+                        <i data-lucide="mail"></i>
+                        <span class="nav-text">Contact</span>
                     </a>
                 </li>
                 <li class="nav-item {{ Request::routeIs('admin.donations.*') ? 'active' : '' }}">
                     <a href="{{ route('admin.donations.index') }}">
-                        <i data-lucide="heart-handshake"></i> Donations
+                        <i data-lucide="heart-handshake"></i>
+                        <span class="nav-text">Donations</span>
                     </a>
                 </li>
             </ul>
@@ -260,13 +363,17 @@
 
         <div class="sidebar-footer">
             <a href="/logout" style="color: #94a3b8; text-decoration: none; display: flex; align-items: center; gap: 0.75rem; font-weight: 600;">
-                <i data-lucide="log-out"></i> Logout
+                <i data-lucide="log-out"></i> 
+                <span class="nav-text footer-text">Logout</span>
             </a>
         </div>
     </aside>
 
     <header>
         <div class="header-left">
+            <button class="sidebar-toggle" id="toggleSidebar">
+                <i data-lucide="menu"></i>
+            </button>
             <button class="mobile-toggle" id="openSidebar">
                 <i data-lucide="menu"></i>
             </button>
@@ -296,12 +403,24 @@
     <script>
         lucide.createIcons();
 
+        const body = document.body;
         const sidebar = document.getElementById('adminSidebar');
         const overlay = document.getElementById('sidebarOverlay');
+        const toggleBtn = document.getElementById('toggleSidebar');
         const openBtn = document.getElementById('openSidebar');
         const closeBtn = document.getElementById('closeSidebar');
 
-        const toggleSidebar = (state) => {
+        // Check for saved sidebar state
+        if (localStorage.getItem('sidebar-collapsed') === 'true') {
+            body.classList.add('collapsed');
+        }
+
+        const toggleSidebarCollapse = () => {
+            body.classList.toggle('collapsed');
+            localStorage.setItem('sidebar-collapsed', body.classList.contains('collapsed'));
+        };
+
+        const toggleMobileSidebar = (state) => {
             if (state) {
                 sidebar.classList.add('open');
                 overlay.classList.add('show');
@@ -311,10 +430,14 @@
             }
         };
 
-        openBtn.addEventListener('click', () => toggleSidebar(true));
-        if(closeBtn) closeBtn.addEventListener('click', () => toggleSidebar(false));
-        overlay.addEventListener('click', () => toggleSidebar(false));
+        toggleBtn.addEventListener('click', toggleSidebarCollapse);
+        openBtn.addEventListener('click', () => toggleMobileSidebar(true));
+        if(closeBtn) closeBtn.addEventListener('click', () => toggleMobileSidebar(false));
+        overlay.addEventListener('click', () => toggleMobileSidebar(false));
     </script>
+    @yield('scripts')
+</body>
+</html>
     @yield('scripts')
 </body>
 </html>

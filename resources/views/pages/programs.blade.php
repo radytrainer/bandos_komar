@@ -2,122 +2,59 @@
 
 @section('content')
 <!-- Page Header -->
-<section class="bg-bk-navy py-20 relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-64 h-64 bg-bk-orange opacity-10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+<section class="bg-bk-navy py-24 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-bk-navy via-bk-navy/80 to-bk-orange/20"></div>
     <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
-        <div class="max-w-3xl mx-auto">
-            <span class="text-bk-orange font-bold uppercase tracking-widest text-sm mb-4 block">What We Do</span>
-            <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">Our Integrated Programs</h1>
-            <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
-                We implement a comprehensive approach to child development, focusing on education, health, and community empowerment to create lasting change.
-            </p>
-        </div>
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">{{ $page->content['header']['title'] ?? 'Our Programs' }}</h1>
+        <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            {{ $page->content['header']['description'] ?? '' }}
+        </p>
     </div>
 </section>
 
-<!-- Programs List -->
+<!-- Programs Grid -->
 <section class="py-24 bg-white">
     <div class="container mx-auto px-4 md:px-6">
-        <div class="space-y-24">
-            
-            <!-- Program 1 -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="order-2 lg:order-1">
-                    <div class="w-16 h-16 bg-bk-orange/10 rounded-2xl flex items-center justify-center text-bk-orange mb-6">
-                        <i data-lucide="book-open" class="w-8 h-8"></i>
+        <div class="grid grid-cols-1 gap-24">
+            @php
+                // For now use the programs from Home Page as example if not specifically defined for this page
+                $programs = $page->content['programs'] ?? [
+                    ['title' => 'Early Childhood Care', 'description' => 'Ensuring children aged 0-5 have access to quality care and early education.', 'icon' => 'book-open'],
+                    ['title' => 'Primary Education', 'description' => 'Supporting local schools to improve the quality of teaching and learning.', 'icon' => 'graduation-cap'],
+                ];
+            @endphp
+
+            @foreach($programs as $index => $program)
+            <div class="flex flex-col {{ $index % 2 == 0 ? 'lg:flex-row' : 'lg:flex-row-reverse' }} items-center gap-16">
+                <div class="flex-1">
+                    <div class="w-20 h-20 bg-bk-navy/5 rounded-[2rem] flex items-center justify-center text-bk-navy mb-8">
+                        <i data-lucide="{{ $program['icon'] ?? 'star' }}" class="w-10 h-10"></i>
                     </div>
-                    <h2 class="text-3xl font-extrabold text-bk-navy mb-6">Early Childhood Care and Education (ECCE)</h2>
-                    <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                        The first five years of a child's life are crucial for cognitive and physical development. Our ECCE program focuses on ensuring that children in rural areas have access to quality early learning environments.
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-bk-navy mb-6 leading-tight">{{ $program['title'] ?? '' }}</h2>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                        {{ $program['description'] ?? '' }}
                     </p>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Establishing community-based preschools.</li>
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Training preschool teachers in modern, child-centered methodologies.</li>
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Providing learning materials and nutritional support.</li>
+                    <ul class="space-y-4 mb-10">
+                        <li class="flex items-center gap-3 text-bk-navy font-bold">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-bk-orange"></i>
+                            Community-led initiatives
+                        </li>
+                        <li class="flex items-center gap-3 text-bk-navy font-bold">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-bk-orange"></i>
+                            Sustainable impact models
+                        </li>
                     </ul>
+                    <a href="#" class="inline-block bg-bk-navy text-white px-10 py-4 rounded-full font-extrabold hover:bg-bk-orange transition-all">Details & Impact</a>
                 </div>
-                <div class="order-1 lg:order-2">
-                    <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=2000&auto=format&fit=crop" alt="ECCE" class="rounded-[2.5rem] shadow-xl w-full h-[400px] object-cover">
+                <div class="flex-1 w-full">
+                    <div class="aspect-video bg-gray-100 rounded-[3rem] overflow-hidden shadow-2xl relative group">
+                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop" alt="Program" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-bk-navy/40 to-transparent"></div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Program 2 -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=2000&auto=format&fit=crop" alt="Primary Education" class="rounded-[2.5rem] shadow-xl w-full h-[400px] object-cover">
-                </div>
-                <div>
-                    <div class="w-16 h-16 bg-bk-orange/10 rounded-2xl flex items-center justify-center text-bk-orange mb-6">
-                        <i data-lucide="graduation-cap" class="w-8 h-8"></i>
-                    </div>
-                    <h2 class="text-3xl font-extrabold text-bk-navy mb-6">Primary Education Quality Improvement</h2>
-                    <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                        We work directly with primary schools to enhance the quality of education and reduce dropout rates, ensuring students transition successfully to secondary school.
-                    </p>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Capacity building for teachers and school directors.</li>
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Improving school infrastructure and creating child-friendly environments.</li>
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Establishing school libraries and reading programs.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Program 3 -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="order-2 lg:order-1">
-                    <div class="w-16 h-16 bg-bk-orange/10 rounded-2xl flex items-center justify-center text-bk-orange mb-6">
-                        <i data-lucide="droplets" class="w-8 h-8"></i>
-                    </div>
-                    <h2 class="text-3xl font-extrabold text-bk-navy mb-6">WASH and Health</h2>
-                    <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                        Good health is a prerequisite for effective learning. Our WASH (Water, Sanitation, and Hygiene) programs ensure that children can learn in a safe and healthy environment.
-                    </p>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Constructing latrines and handwashing stations in schools.</li>
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Providing access to clean drinking water systems.</li>
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Conducting hygiene awareness campaigns for students and parents.</li>
-                    </ul>
-                </div>
-                <div class="order-1 lg:order-2">
-                    <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=2000&auto=format&fit=crop" alt="WASH Program" class="rounded-[2.5rem] shadow-xl w-full h-[400px] object-cover">
-                </div>
-            </div>
-
-            <!-- Program 4 -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <img src="https://images.unsplash.com/photo-1529156069898-49953eb1f5ff?q=80&w=2000&auto=format&fit=crop" alt="Community Empowerment" class="rounded-[2.5rem] shadow-xl w-full h-[400px] object-cover">
-                </div>
-                <div>
-                    <div class="w-16 h-16 bg-bk-orange/10 rounded-2xl flex items-center justify-center text-bk-orange mb-6">
-                        <i data-lucide="users" class="w-8 h-8"></i>
-                    </div>
-                    <h2 class="text-3xl font-extrabold text-bk-navy mb-6">Community Empowerment</h2>
-                    <p class="text-gray-600 text-lg leading-relaxed mb-6">
-                        Sustainable change requires community ownership. We empower parents, local authorities, and community leaders to advocate for and support their children's education.
-                    </p>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Strengthening School Support Committees (SSCs).</li>
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Organizing parenting education sessions on child development.</li>
-                        <li class="flex gap-3 text-gray-600"><i data-lucide="check-circle-2" class="w-6 h-6 text-bk-orange shrink-0"></i> Promoting child rights and protection mechanisms at the village level.</li>
-                    </ul>
-                </div>
-            </div>
-
+            @endforeach
         </div>
-    </div>
-</section>
-
-<!-- Banner -->
-<section class="py-20 bg-bk-orange">
-    <div class="container mx-auto px-4 md:px-6 text-center">
-        <h2 class="text-3xl md:text-4xl font-black text-white mb-6">Support Our Programs</h2>
-        <p class="text-white/90 text-lg mb-10 max-w-2xl mx-auto">
-            Your donation directly funds these initiatives, helping us reach more children and communities in need.
-        </p>
-        <a href="#" class="inline-block bg-white text-bk-navy px-10 py-4 rounded-full font-bold text-lg uppercase tracking-wider hover:scale-105 transition-transform shadow-lg">
-            Make a Donation
-        </a>
     </div>
 </section>
 @endsection

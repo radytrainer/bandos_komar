@@ -3,25 +3,32 @@
 @section('content')
 <!-- Page Header -->
 <section class="bg-bk-navy py-20 relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-64 h-64 bg-bk-orange opacity-10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-    <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
-        <div class="max-w-3xl mx-auto">
-            <span class="text-bk-orange font-bold uppercase tracking-widest text-sm mb-4 block">Info & Resources</span>
-            <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">Annual Report</h1>
-        </div>
+    <div class="container mx-auto px-4 md:px-6 relative z-10">
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">{{ $page->content['header']['title'] ?? 'Annual Reports' }}</h1>
+        <p class="text-gray-300 text-lg md:text-xl max-w-2xl leading-relaxed">
+            {{ $page->content['header']['description'] ?? '' }}
+        </p>
     </div>
 </section>
 
-<!-- Draft Content -->
-<section class="py-24 bg-white relative">
-    <div class="container mx-auto px-4 md:px-6 text-center">
-        <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-8 text-gray-300">
-            <i data-lucide="file-text" class="w-12 h-12"></i>
+<section class="py-24 bg-white">
+    <div class="container mx-auto px-4 md:px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @if(isset($page->content['reports']))
+                @foreach($page->content['reports'] as $report)
+                <div class="bg-gray-50 p-8 rounded-[2rem] border border-gray-100 hover:shadow-xl transition-all group">
+                    <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-bk-orange mb-6 shadow-sm">
+                        <i data-lucide="file-text" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-extrabold text-bk-navy mb-2">{{ $report['title'] ?? '' }}</h3>
+                    <span class="block text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">Year: {{ $report['year'] ?? '' }}</span>
+                    <a href="{{ $report['link'] ?? '#' }}" class="inline-flex items-center gap-2 text-bk-navy font-bold hover:text-bk-orange transition-colors">
+                        Download Report <i data-lucide="download" class="w-4 h-4"></i>
+                    </a>
+                </div>
+                @endforeach
+            @endif
         </div>
-        <h2 class="text-3xl font-bold text-bk-navy mb-4">Content Coming Soon</h2>
-        <p class="text-gray-500 max-w-xl mx-auto text-lg leading-relaxed">
-            This page is currently being drafted. We are gathering our latest annual reports to share our impact with you. Check back later!
-        </p>
     </div>
 </section>
 @endsection

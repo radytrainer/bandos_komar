@@ -2,59 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Page;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        $page = Page::where('slug', 'home')->first();
         return view('pages.home', [
-            'title' => 'Home - Bandos Komar'
+            'page' => $page,
+            'title' => $page->title ?? 'Home - Bandos Komar'
         ]);
     }
 
     public function about()
     {
+        $page = Page::where('slug', 'about-us')->first();
         return view('pages.about', [
-            'title' => 'About Us - Bandos Komar'
+            'page' => $page,
+            'title' => $page->title ?? 'About Us - Bandos Komar'
         ]);
     }
 
     public function history()
     {
+        $page = Page::where('slug', 'history')->first();
         return view('pages.history', [
-            'title' => 'Our History - Bandos Komar'
+            'page' => $page,
+            'title' => $page->title ?? 'History - Bandos Komar'
         ]);
     }
 
-    public function programs()
+    public function program()
     {
+        $page = Page::where('slug', 'our-program')->first();
         return view('pages.programs', [
-            'title' => 'Our Programs - Bandos Komar'
+            'page' => $page,
+            'title' => $page->title ?? 'Our Program - Bandos Komar'
+        ]);
+    }
+
+    public function annualReport()
+    {
+        $page = Page::where('slug', 'annual-report')->first();
+        return view('pages.annual-report', [
+            'page' => $page,
+            'title' => $page->title ?? 'Annual Report - Bandos Komar'
+        ]);
+    }
+
+    public function publication()
+    {
+        $page = Page::where('slug', 'publication')->first();
+        return view('pages.publication', [
+            'page' => $page,
+            'title' => $page->title ?? 'Publication - Bandos Komar'
         ]);
     }
 
     public function contact()
     {
+        $page = Page::where('slug', 'contact')->first();
         return view('pages.contact', [
-            'title' => 'Contact Us - Bandos Komar'
-        ]);
-    }
-
-    public function annualReport() { return view('pages.annual-report', ['title' => 'Annual Report - Bandos Komar']); }
-    public function publication() { return view('pages.publication', ['title' => 'Publication - Bandos Komar']); }
-    public function photoGallery() { return view('pages.photo-gallery', ['title' => 'Photo Gallery - Bandos Komar']); }
-    public function videoCenter() { return view('pages.video-center', ['title' => 'Video Center - Bandos Komar']); }
-    
-    public function supportUs() { return view('pages.support-us', ['title' => 'Support Us - Bandos Komar']); }
-    public function sponsorChild() { return view('pages.sponsor-child', ['title' => 'Sponsor a Child - Bandos Komar']); }
-    public function waysToGive() { return view('pages.ways-to-give', ['title' => 'Ways to Give - Bandos Komar']); }
-    public function career() { return view('pages.career', ['title' => 'Career - Bandos Komar']); }
-
-    public function donate()
-    {
-        return view('pages.donate', [
-            'title' => 'Make a Donation - Bandos Komar'
+            'page' => $page,
+            'title' => $page->title ?? 'Contact - Bandos Komar'
         ]);
     }
 }

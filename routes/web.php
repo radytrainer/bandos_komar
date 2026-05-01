@@ -9,6 +9,7 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/history', [HomeController::class, 'history'])->name('history');
 Route::get('/programs', [HomeController::class, 'programs'])->name('programs');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submit'])->name('contact.submit');
 
 Route::get('/resources/annual-report', [HomeController::class, 'annualReport'])->name('resources.annual-report');
 Route::get('/resources/publication', [HomeController::class, 'publication'])->name('resources.publication');
@@ -33,5 +34,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
     Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
     Route::get('/donations', [\App\Http\Controllers\Admin\DonationController::class, 'index'])->name('donations.index');
 });

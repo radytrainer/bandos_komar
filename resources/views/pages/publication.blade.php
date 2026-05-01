@@ -3,25 +3,36 @@
 @section('content')
 <!-- Page Header -->
 <section class="bg-bk-navy py-20 relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-64 h-64 bg-bk-orange opacity-10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-    <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
-        <div class="max-w-3xl mx-auto">
-            <span class="text-bk-orange font-bold uppercase tracking-widest text-sm mb-4 block">Info & Resources</span>
-            <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">Publication</h1>
-        </div>
+    <div class="container mx-auto px-4 md:px-6 relative z-10">
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">{{ $page->content['header']['title'] ?? 'Publications' }}</h1>
+        <p class="text-gray-300 text-lg md:text-xl max-w-2xl leading-relaxed">
+            {{ $page->content['header']['description'] ?? '' }}
+        </p>
     </div>
 </section>
 
-<!-- Draft Content -->
-<section class="py-24 bg-white relative">
-    <div class="container mx-auto px-4 md:px-6 text-center">
-        <div class="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-8 text-gray-300">
-            <i data-lucide="book" class="w-12 h-12"></i>
+<section class="py-24 bg-white">
+    <div class="container mx-auto px-4 md:px-6">
+        <div class="space-y-6">
+            @if(isset($page->content['items']))
+                @foreach($page->content['items'] as $item)
+                <div class="flex items-center justify-between p-8 bg-gray-50 rounded-3xl border border-gray-100 hover:bg-white hover:shadow-lg transition-all group">
+                    <div class="flex items-center gap-6">
+                        <div class="w-14 h-14 bg-bk-navy/5 rounded-xl flex items-center justify-center text-bk-navy group-hover:bg-bk-navy group-hover:text-white transition-all">
+                            <i data-lucide="book" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-extrabold text-bk-navy mb-1">{{ $item['title'] ?? '' }}</h3>
+                            <span class="text-sm font-bold text-gray-400 uppercase tracking-widest">{{ $item['type'] ?? 'PDF' }}</span>
+                        </div>
+                    </div>
+                    <a href="{{ $item['link'] ?? '#' }}" class="bg-white border-2 border-bk-navy/10 text-bk-navy px-8 py-3 rounded-full font-extrabold hover:bg-bk-navy hover:text-white transition-all">
+                        View Publication
+                    </a>
+                </div>
+                @endforeach
+            @endif
         </div>
-        <h2 class="text-3xl font-bold text-bk-navy mb-4">Content Coming Soon</h2>
-        <p class="text-gray-500 max-w-xl mx-auto text-lg leading-relaxed">
-            This page is currently being drafted. We are compiling our research, studies, and publications.
-        </p>
     </div>
 </section>
 @endsection
