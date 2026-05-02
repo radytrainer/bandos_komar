@@ -9,7 +9,15 @@ class Category extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'description'];
+    protected $fillable = ['name', 'name_km', 'slug', 'description'];
+
+    public function getTranslatedNameAttribute()
+    {
+        if (app()->getLocale() === 'km' && $this->name_km) {
+            return $this->name_km;
+        }
+        return $this->name;
+    }
 
     public function posts()
     {

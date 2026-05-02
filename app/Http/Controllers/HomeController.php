@@ -12,7 +12,7 @@ class HomeController extends Controller
         $page = Page::where('slug', 'home')->first();
         return view('pages.home', [
             'page' => $page,
-            'title' => $page->title ?? 'Home - Bandos Komar'
+            'title' => $page->translated_title ?? 'Home - Bandos Komar'
         ]);
     }
 
@@ -21,7 +21,7 @@ class HomeController extends Controller
         $page = Page::where('slug', 'about-us')->first();
         return view('pages.about', [
             'page' => $page,
-            'title' => $page->title ?? 'About Us - Bandos Komar'
+            'title' => $page->translated_title ?? 'About Us - Bandos Komar'
         ]);
     }
 
@@ -30,7 +30,7 @@ class HomeController extends Controller
         $page = Page::where('slug', 'history')->first();
         return view('pages.history', [
             'page' => $page,
-            'title' => $page->title ?? 'History - Bandos Komar'
+            'title' => $page->translated_title ?? 'History - Bandos Komar'
         ]);
     }
 
@@ -39,7 +39,7 @@ class HomeController extends Controller
         $page = Page::where('slug', 'our-program')->first();
         return view('pages.programs', [
             'page' => $page,
-            'title' => $page->title ?? 'Our Program - Bandos Komar'
+            'title' => $page->translated_title ?? 'Our Program - Bandos Komar'
         ]);
     }
 
@@ -48,7 +48,7 @@ class HomeController extends Controller
         $page = Page::where('slug', 'annual-report')->first();
         return view('pages.annual-report', [
             'page' => $page,
-            'title' => $page->title ?? 'Annual Report - Bandos Komar'
+            'title' => $page->translated_title ?? 'Annual Report - Bandos Komar'
         ]);
     }
 
@@ -57,7 +57,7 @@ class HomeController extends Controller
         $page = Page::where('slug', 'publication')->first();
         return view('pages.publication', [
             'page' => $page,
-            'title' => $page->title ?? 'Publication - Bandos Komar'
+            'title' => $page->translated_title ?? 'Publication - Bandos Komar'
         ]);
     }
 
@@ -66,7 +66,7 @@ class HomeController extends Controller
         $page = Page::where('slug', 'contact')->first();
         return view('pages.contact', [
             'page' => $page,
-            'title' => $page->title ?? 'Contact - Bandos Komar'
+            'title' => $page->translated_title ?? 'Contact - Bandos Komar'
         ]);
     }
 }

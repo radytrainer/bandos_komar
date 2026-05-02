@@ -118,49 +118,53 @@
 
 @section('admin_content')
 <div class="page-header">
-    <h1 class="page-title">Dashboard Overview</h1>
-    <p class="page-subtitle">Welcome back, Administrator. Here's what's happening with Bandos Komar today.</p>
+    <h1 class="page-title">{{ __('Dashboard Overview') }}</h1>
+    <p class="page-subtitle">{{ __('Welcome back, Administrator. Here\'s what\'s happening with Bandos Komar today.') }}</p>
 </div>
 
 {{-- Stats --}}
 <div class="stats-grid">
+    @if(Auth::user()->role === 'admin')
     <a href="{{ route('admin.users.index') }}" class="stat-card">
         <div class="stat-icon icon-blue"><i data-lucide="users"></i></div>
         <div class="stat-info">
             <div class="stat-value">{{ $stats['total_users']['value'] }}</div>
-            <div class="stat-label">Total Users</div>
+            <div class="stat-label">{{ __('Total Users') }}</div>
             <span class="stat-badge {{ $stats['total_users']['up'] ? 'badge-up' : 'badge-down' }}">
                 <i data-lucide="{{ $stats['total_users']['up'] ? 'trending-up' : 'trending-down' }}" style="width:12px;height:12px;"></i>
                 {{ $stats['total_users']['change'] }}
             </span>
         </div>
     </a>
+    @endif
     <a href="{{ route('admin.posts.index') }}" class="stat-card">
         <div class="stat-icon icon-green"><i data-lucide="file-text"></i></div>
         <div class="stat-info">
             <div class="stat-value">{{ $stats['total_posts']['value'] }}</div>
-            <div class="stat-label">Total Posts</div>
+            <div class="stat-label">{{ __('Total Posts') }}</div>
             <span class="stat-badge badge-up">
                 <i data-lucide="trending-up" style="width:12px;height:12px;"></i>
                 {{ $stats['total_posts']['change'] }}
             </span>
         </div>
     </a>
+    @if(Auth::user()->role === 'admin')
     <a href="{{ route('admin.donations.index') }}" class="stat-card">
         <div class="stat-icon icon-orange"><i data-lucide="dollar-sign"></i></div>
         <div class="stat-info">
             <div class="stat-value">{{ $stats['total_donations']['value'] }}</div>
-            <div class="stat-label">Total Donations</div>
+            <div class="stat-label">{{ __('Total Donations') }}</div>
             <span class="stat-badge {{ $stats['total_donations']['up'] === false ? 'badge-down' : 'badge-neutral' }}">
                 {{ $stats['total_donations']['change'] }}
             </span>
         </div>
     </a>
+    @endif
     <a href="{{ route('admin.categories.index') }}" class="stat-card">
         <div class="stat-icon icon-purple"><i data-lucide="folder"></i></div>
         <div class="stat-info">
             <div class="stat-value">{{ $stats['active_categories']['value'] }}</div>
-            <div class="stat-label">Categories</div>
+            <div class="stat-label">{{ __('Categories') }}</div>
             <span class="stat-badge badge-neutral">{{ $stats['active_categories']['change'] }}</span>
         </div>
     </a>
@@ -172,19 +176,19 @@
     <div class="card">
         <div class="card-header">
             <div>
-                <div class="card-title">Recent Posts</div>
-                <div class="card-subtitle">Latest articles and news</div>
+                <div class="card-title">{{ __('Recent Posts') }}</div>
+                <div class="card-subtitle">{{ __('Latest articles and news') }}</div>
             </div>
-            <a href="{{ route('admin.posts.index') }}" class="card-link">View All <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></a>
+            <a href="{{ route('admin.posts.index') }}" class="card-link">{{ __('View All') }} <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></a>
         </div>
         <table class="data-table">
             <thead>
                 <tr>
-                    <th>Post</th>
-                    <th>Category</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th style="text-align:right;">Actions</th>
+                    <th>{{ __('Post') }}</th>
+                    <th>{{ __('Category') }}</th>
+                    <th>{{ __('Status') }}</th>
+                    <th>{{ __('Date') }}</th>
+                    <th style="text-align:right;">{{ __('Actions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -192,11 +196,11 @@
                 <tr>
                     <td>
                         <div class="post-title">{{ $post['title'] }}</div>
-                        <div class="post-meta">By {{ $post['author'] }}</div>
+                        <div class="post-meta">{{ __('By') }} {{ $post['author'] }}</div>
                     </td>
                     <td><span class="cat-pill">{{ $post['category'] }}</span></td>
                     <td>
-                        <span class="status-badge {{ $post['status'] === 'Published' ? 'status-published' : 'status-draft' }}">
+                        <span class="status-badge {{ $post['status'] === 'Published' || $post['status'] === 'បានបោះពុម្ព' ? 'status-published' : 'status-draft' }}">
                             <span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;"></span>
                             {{ $post['status'] }}
                         </span>
@@ -217,10 +221,10 @@
         <div class="card">
             <div class="card-header">
                 <div>
-                    <div class="card-title">Top Donors</div>
-                    <div class="card-subtitle">Most generous contributors</div>
+                    <div class="card-title">{{ __('Top Donors') }}</div>
+                    <div class="card-subtitle">{{ __('Most generous contributors') }}</div>
                 </div>
-                <a href="{{ route('admin.donations.index') }}" class="card-link">View All <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></a>
+                <a href="{{ route('admin.donations.index') }}" class="card-link">{{ __('View All') }} <i data-lucide="arrow-right" style="width:14px;height:14px;"></i></a>
             </div>
             <div class="card-body">
                 @php $colors = ['#f68b1e','#2563eb','#16a34a','#9333ea','#dc2626']; @endphp
@@ -229,7 +233,7 @@
                     <div class="avatar" style="background:{{ $colors[$i % count($colors)] }};">{{ $donor['initials'] }}</div>
                     <div>
                         <div class="donor-name">{{ $donor['name'] }}</div>
-                        <div class="donor-count">{{ $donor['donations'] }}</div>
+                        <div class="donor-count">{{ $donor['donations'] }} {{ __('Donations') }}</div>
                     </div>
                     <div class="donor-amount">{{ $donor['amount'] }}</div>
                 </div>
@@ -240,22 +244,24 @@
         {{-- Quick Actions --}}
         <div class="card">
             <div class="card-header">
-                <div class="card-title">Quick Actions</div>
+                <div class="card-title">{{ __('Quick Actions') }}</div>
             </div>
             <div class="card-body">
                 <div class="quick-actions">
                     <a href="{{ route('admin.posts.create') }}" class="quick-action-btn">
-                        <i data-lucide="plus-circle"></i> New Post
+                        <i data-lucide="plus-circle"></i> {{ __('New Post') }}
                     </a>
                     <a href="{{ route('admin.categories.index') }}" class="quick-action-btn">
-                        <i data-lucide="folder-plus"></i> New Category
+                        <i data-lucide="folder-plus"></i> {{ __('New Category') }}
                     </a>
+                    @if(Auth::user()->role === 'admin')
                     <a href="{{ route('admin.users.index') }}" class="quick-action-btn">
-                        <i data-lucide="user-plus"></i> Add User
+                        <i data-lucide="user-plus"></i> {{ __('Add User') }}
                     </a>
                     <a href="{{ route('admin.donations.index') }}" class="quick-action-btn">
-                        <i data-lucide="heart-handshake"></i> Donations
+                        <i data-lucide="heart-handshake"></i> {{ __('Donations') }}
                     </a>
+                    @endif
                 </div>
             </div>
         </div>

@@ -11,8 +11,9 @@ class PageSeeder extends Seeder
     {
         $pages = [
             [
-                'title' => 'Home Page', 
-                'slug' => 'home', 
+                'title' => 'Home Page',
+                'title_km' => 'ទំព័រដើម',
+                'slug' => 'home',
                 'icon' => 'home',
                 'content' => [
                     'hero' => [
@@ -43,11 +44,42 @@ class PageSeeder extends Seeder
                         ['title' => 'Community Empowerment', 'description' => 'Working with parents and local authorities to build strong support systems.', 'icon' => 'users'],
                         ['title' => 'WASH & Health', 'description' => 'Providing clean water, sanitation, and hygiene facilities for better health.', 'icon' => 'droplets'],
                     ]
+                ],
+                'content_km' => [
+                    'hero' => [
+                        'title' => 'ការផ្តល់អំណាចដល់សហគមន៍',
+                        'subtitle' => 'ដើម្បីអនាគតកាន់តែប្រសើរ',
+                        'description' => 'អង្គការបណ្តុះកុមារ គឺជាអង្គការក្នុងស្រុកមួយដែលខិតខំលើកកម្ពស់វិស័យអប់រំនៅកម្ពុជា ជាពិសេសនៅតំបន់ជនបទ។ យើងជឿជាក់ថាកុមារគ្រប់រូបសមនឹងទទួលបានឱកាសក្នុងការរៀនសូត្រ និងការរីកចម្រើន។',
+                        'badge' => 'ផលប៉ះពាល់តាំងពីឆ្នាំ ១៩៨៩',
+                        'image' => '/assets/images/hero.png',
+                    ],
+                    'stats' => [
+                        'heading' => 'តើពួកយើងជានរណា',
+                        'title' => 'សមាគមបណ្តុះកុមារ',
+                        'description' => 'អង្គការបណ្តុះកុមារ (BK) គឺជាអង្គការមិនមែនរដ្ឋាភិបាលក្នុងស្រុកដែលខិតខំកែលម្អការអប់រំនៅកម្ពុជា ជាពិសេសនៅតំបន់ជនបទ។ អង្គការនេះមានប្រភពចេញពី Partage ដែលបានចាប់ផ្តើមប្រតិបត្តិការនៅក្នុងប្រទេសកម្ពុជាក្នុងខែវិច្ឆិកា ឆ្នាំ១៩៨៩។',
+                        'items' => [
+                            ['label' => 'បង្កើតឡើង', 'value' => '១៩៨៩'],
+                            ['label' => 'ឆ្នាំនៃផលប៉ះពាល់', 'value' => '៣០+'],
+                            ['label' => 'សហគមន៍', 'value' => '១០០+'],
+                            ['label' => 'កុមារដែលបានជួយ', 'value' => '១ម៉ឺន+'],
+                        ]
+                    ],
+                    'cta' => [
+                        'title' => 'គាំទ្របេសកកម្មរបស់យើង',
+                        'description' => 'ការចូលរួមរបស់អ្នកពិតជាអាចបង្កើតការផ្លាស់ប្តូរពិតប្រាកដនៅក្នុងជីវិតរបស់កុមារនៅតំបន់ជនបទនៃប្រទេសកម្ពុជា។ ចូលរួមជាមួយយើងក្នុងដំណើរនៃការផ្តល់អំណាចដល់យុវជនជំនាន់ក្រោយ។',
+                    ],
+                    'programs' => [
+                        ['title' => 'ការថែទាំកុមារតូច', 'description' => 'ការធានាថាកុមារអាយុពី ០-៥ ឆ្នាំទទួលបានការថែទាំប្រកបដោយគុណភាព និងការអប់រំកម្រិតដំបូង។', 'icon' => 'book-open'],
+                        ['title' => 'ការអប់រំបឋមសិក្សា', 'description' => 'គាំទ្រសាលារៀនក្នុងស្រុកដើម្បីលើកកម្ពស់គុណភាពនៃការបង្រៀន និងការរៀន។', 'icon' => 'graduation-cap'],
+                        ['title' => 'ការផ្តល់អំណាចដល់សហគមន៍', 'description' => 'ធ្វើការជាមួយមាតាបិតា និងអាជ្ញាធរមូលដ្ឋានដើម្បីកសាងប្រព័ន្ធគាំទ្រដ៏រឹងមាំ។', 'icon' => 'users'],
+                        ['title' => 'ទឹកស្អាត និងអនាម័យ', 'description' => 'ផ្តល់ទឹកស្អាត អនាម័យ និងសម្ភារៈអនាម័យដើម្បីសុខភាពកាន់តែប្រសើរ។', 'icon' => 'droplets'],
+                    ]
                 ]
             ],
             [
-                'title' => 'About Us', 
-                'slug' => 'about-us', 
+                'title' => 'About Us',
+                'title_km' => 'អំពីយើង',
+                'slug' => 'about-us',
                 'icon' => 'info',
                 'content' => [
                     'header' => [
@@ -69,11 +101,33 @@ class PageSeeder extends Seeder
                             ['title' => 'Inclusion', 'description' => 'We strive to ensure that every child has equal access to quality education.', 'icon' => 'heart'],
                         ]
                     ]
+                ],
+                'content_km' => [
+                    'header' => [
+                        'badge' => 'អំពីយើង',
+                        'title' => 'បេសកកម្ម និងចក្ខុវិស័យរបស់យើង',
+                        'description' => 'នៅអង្គការបណ្តុះកុមារ យើងជឿជាក់ថាកុមារគ្រប់រូបមានសក្តានុពលក្នុងការផ្លាស់ប្តូរពិភពលោកតាមរយៈការអប់រំ និងការគាំទ្រពីសហគមន៍។',
+                    ],
+                    'mission' => [
+                        'title' => 'ការផ្លាស់ប្តូរការអប់រំនៅតំបន់ជនបទនៃប្រទេសកម្ពុជា',
+                        'description' => 'អង្គការបណ្តុះកុមារ (BK) គឺជាអង្គការមិនមែនរដ្ឋាភិបាលក្នុងស្រុកដែលខិតខំកែលម្អការអប់រំនៅកម្ពុជា ជាពិសេសនៅតំបន់ជនបទ។ អង្គការនេះមានប្រភពចេញពី Partage ដែលបានចាប់ផ្តើមប្រតិបត្តិការនៅក្នុងប្រទេសកម្ពុជាក្នុងខែវិច្ឆិកា ឆ្នាំ១៩៨៩។',
+                        'quote' => 'ការអប់រំគឺជាអាវុធដ៏មានឥទ្ធិពលបំផុតដែលអ្នកអាចប្រើដើម្បីផ្លាស់ប្តូរពិភពលោក។',
+                        'image' => 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070&auto=format&fit=crop'
+                    ],
+                    'values' => [
+                        'title' => 'តម្លៃស្នូលរបស់យើង',
+                        'items' => [
+                            ['title' => 'សុចរិតភាព', 'description' => 'យើងរក្សានូវស្តង់ដារខ្ពស់បំផុតនៃតម្លាភាព និងគណនេយ្យភាព។', 'icon' => 'shield-check'],
+                            ['title' => 'ការផ្តល់អំណាច', 'description' => 'យើងជឿជាក់លើការអនុញ្ញាតឱ្យសហគមន៍ទទួលខុសត្រូវលើការអភិវឌ្ឍន៍ផ្ទាល់ខ្លួនរបស់ពួកគេ។', 'icon' => 'hand-metal'],
+                            ['title' => 'បរិយាប័ន្ន', 'description' => 'យើងខិតខំធានាថាកុមារគ្រប់រូបមានលទ្ធភាពទទួលបានការអប់រំប្រកបដោយគុណភាពស្មើៗគ្នា។', 'icon' => 'heart'],
+                        ]
+                    ]
                 ]
             ],
             [
-                'title' => 'History', 
-                'slug' => 'history', 
+                'title' => 'History',
+                'title_km' => 'ប្រវត្តិ',
+                'slug' => 'history',
                 'icon' => 'history',
                 'content' => [
                     'header' => [
@@ -85,22 +139,41 @@ class PageSeeder extends Seeder
                         ['year' => '2000', 'title' => 'Expansion', 'description' => 'BK expands its programs to include community empowerment.'],
                         ['year' => '2020', 'title' => 'Modernization', 'description' => 'Implementing digital education and WASH programs across Cambodia.'],
                     ]
+                ],
+                'content_km' => [
+                    'header' => [
+                        'title' => 'ដំណើររបស់យើងតាំងពីឆ្នាំ ១៩៨៩',
+                        'description' => 'កេរ្តិ៍ដំណែលនៃការប្តេជ្ញាចិត្តចំពោះកុមារកម្ពុជា និងការអភិវឌ្ឍន៍ជនបទ។',
+                    ],
+                    'timeline' => [
+                        ['year' => '១៩៨៩', 'title' => 'ការបង្កើតឡើង', 'description' => 'Partage ចាប់ផ្តើមប្រតិបត្តិការនៅក្នុងប្រទេសកម្ពុជា ដើម្បីគាំទ្រការអប់រំក្នុងស្រុក។'],
+                        ['year' => '២០០០', 'title' => 'ការពង្រីកខ្លួន', 'description' => 'អង្គការបណ្តុះកុមារពង្រីកកម្មវិធីរបស់ខ្លួនដើម្បីរួមបញ្ចូលការផ្តល់អំណាចដល់សហគមន៍។'],
+                        ['year' => '២០២០', 'title' => 'ទំនើបកម្ម', 'description' => 'ការអនុវត្តការអប់រំឌីជីថល និងកម្មវិធីទឹកស្អាតទូទាំងប្រទេសកម្ពុជា។'],
+                    ]
                 ]
             ],
             [
-                'title' => 'Our Program', 
-                'slug' => 'our-program', 
+                'title' => 'Our Program',
+                'title_km' => 'កម្មវិធីរបស់យើង',
+                'slug' => 'our-program',
                 'icon' => 'graduation-cap',
                 'content' => [
                     'header' => [
                         'title' => 'Impactful Programs',
                         'description' => 'We deliver comprehensive solutions for education and health.',
                     ]
+                ],
+                'content_km' => [
+                    'header' => [
+                        'title' => 'កម្មវិធីដែលមានឥទ្ធិពល',
+                        'description' => 'យើងផ្តល់ជូននូវដំណោះស្រាយដ៏ទូលំទូលាយសម្រាប់ការអប់រំ និងសុខភាព។',
+                    ]
                 ]
             ],
             [
-                'title' => 'Annual Report', 
-                'slug' => 'annual-report', 
+                'title' => 'Annual Report',
+                'title_km' => 'របាយការណ៍ប្រចាំឆ្នាំ',
+                'slug' => 'annual-report',
                 'icon' => 'file-text',
                 'content' => [
                     'header' => [
@@ -111,11 +184,22 @@ class PageSeeder extends Seeder
                         ['title' => 'Annual Report 2023', 'year' => '2023', 'link' => '#'],
                         ['title' => 'Annual Report 2022', 'year' => '2022', 'link' => '#'],
                     ]
+                ],
+                'content_km' => [
+                    'header' => [
+                        'title' => 'របាយការណ៍ប្រចាំឆ្នាំ',
+                        'description' => 'ឯកសារប្រកបដោយតម្លាភាពនៃផលប៉ះពាល់ប្រចាំឆ្នាំ និងសុខភាពហិរញ្ញវត្ថុរបស់យើង។',
+                    ],
+                    'reports' => [
+                        ['title' => 'របាយការណ៍ប្រចាំឆ្នាំ ២០២៣', 'year' => '២០២៣', 'link' => '#'],
+                        ['title' => 'របាយការណ៍ប្រចាំឆ្នាំ ២០២២', 'year' => '២០២២', 'link' => '#'],
+                    ]
                 ]
             ],
             [
-                'title' => 'Publication', 
-                'slug' => 'publication', 
+                'title' => 'Publication',
+                'title_km' => 'ការបោះពុម្ពផ្សាយ',
+                'slug' => 'publication',
                 'icon' => 'book-open',
                 'content' => [
                     'header' => [
@@ -125,11 +209,21 @@ class PageSeeder extends Seeder
                     'items' => [
                         ['title' => 'Education Study 2023', 'type' => 'PDF', 'link' => '#'],
                     ]
+                ],
+                'content_km' => [
+                    'header' => [
+                        'title' => 'ការបោះពុម្ពផ្សាយ',
+                        'description' => 'ឯកសារស្រាវជ្រាវ ការសិក្សាករណី និងសម្ភារៈព័ត៌មានផ្សេងៗ។',
+                    ],
+                    'items' => [
+                        ['title' => 'ការសិក្សាអំពីការអប់រំ ២០២៣', 'type' => 'PDF', 'link' => '#'],
+                    ]
                 ]
             ],
             [
-                'title' => 'Contact', 
-                'slug' => 'contact', 
+                'title' => 'Contact',
+                'title_km' => 'ទំនាក់ទំនង',
+                'slug' => 'contact',
                 'icon' => 'mail',
                 'content' => [
                     'header' => [
@@ -139,7 +233,19 @@ class PageSeeder extends Seeder
                     'info' => [
                         'address' => 'Phnom Penh, Cambodia',
                         'email' => 'info@bandoskomar.org',
-                        'phone' => '+855 23 456 789',
+                        'phone' => '+855 (0) 23 881 234',
+                        'map_embed' => '#'
+                    ]
+                ],
+                'content_km' => [
+                    'header' => [
+                        'title' => 'ទាក់ទងមកយើង',
+                        'description' => 'យើងនៅទីនេះដើម្បីឆ្លើយសំណួររបស់អ្នក និងស្វែងរកកិច្ចសហការផ្សេងៗ។',
+                    ],
+                    'info' => [
+                        'address' => '#១២ ផ្លូវ ៣១៥ បឹងកក់២ ខណ្ឌទួលគោក ភ្នំពេញ',
+                        'email' => 'info@bandoskomar.org',
+                        'phone' => '+៨៥៥ (០) ២៣ ៨៨១ ២៣៤',
                         'map_embed' => '#'
                     ]
                 ]

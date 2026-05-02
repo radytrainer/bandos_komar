@@ -5,9 +5,9 @@
 <section class="bg-bk-navy py-24 relative overflow-hidden">
     <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
     <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
-        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight">{{ $page->content['header']['title'] ?? 'Our History' }}</h1>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight">{{ $page->translated_content['header']['title'] ?? 'Our History' }}</h1>
         <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            {{ $page->content['header']['description'] ?? '' }}
+            {{ $page->translated_content['header']['description'] ?? '' }}
         </p>
     </div>
 </section>
@@ -19,8 +19,8 @@
 
     <div class="container mx-auto px-4 md:px-6 relative z-10">
         <div class="space-y-24">
-            @if(isset($page->content['timeline']))
-                @foreach($page->content['timeline'] as $index => $item)
+            @if(isset($page->translated_content['timeline']))
+                @foreach($page->translated_content['timeline'] as $index => $item)
                 @if(isset($item['year']) && $item['year'])
                 <div class="flex flex-col {{ $index % 2 == 0 ? 'md:flex-row' : 'md:flex-row-reverse' }} items-center gap-8 md:gap-16">
                     <div class="flex-1 text-center {{ $index % 2 == 0 ? 'md:text-right' : 'md:text-left' }}">

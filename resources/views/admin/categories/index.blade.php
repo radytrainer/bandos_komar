@@ -39,8 +39,8 @@
 
 @section('admin_content')
 <div class="page-header">
-    <h1 class="page-title">Categories</h1>
-    <p class="page-subtitle">Organize your site content with powerful category tags.</p>
+    <h1 class="page-title">{{ __('Categories') }}</h1>
+    <p class="page-subtitle">{{ __('Organize your site content with powerful category tags.') }}</p>
 </div>
 
 @if(session('success'))
@@ -53,20 +53,24 @@
     {{-- Add Category Form --}}
     <div>
         <div class="card">
-            <div class="card-header"><span class="card-title">Add New Category</span></div>
+            <div class="card-header"><span class="card-title">{{ __('Add New Category') }}</span></div>
             <div class="card-body">
                 <form action="{{ route('admin.categories.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label class="form-label">Category Name</label>
+                        <label class="form-label">{{ __('Category Name (EN)') }}</label>
                         <input type="text" name="name" class="form-control" placeholder="e.g. Health Outreach" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Description (Optional)</label>
-                        <textarea name="description" class="form-control" rows="4" placeholder="Briefly describe this category..."></textarea>
+                        <label class="form-label">{{ __('Category Name (KM)') }}</label>
+                        <input type="text" name="name_km" class="form-control" placeholder="ឧទាហរណ៍៖ ការអប់រំ">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">{{ __('Description (Optional)') }}</label>
+                        <textarea name="description" class="form-control" rows="4" placeholder="{{ __('Briefly describe this category...') }}"></textarea>
                     </div>
                     <button type="submit" class="btn-primary">
-                        <i data-lucide="plus-circle" style="width:18px;height:18px;"></i> Add Category
+                        <i data-lucide="plus-circle" style="width:18px;height:18px;"></i> {{ __('Add Category') }}
                     </button>
                 </form>
             </div>
@@ -77,30 +81,30 @@
     <div>
         <div class="card">
             <div class="card-header">
-                <span class="card-title">All Categories <span style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-left:0.5rem;">{{ $categories->total() }} total</span></span>
+                <span class="card-title">{{ __('All Categories') }} <span style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-left:0.5rem;">{{ $categories->total() }} {{ __('total') }}</span></span>
             </div>
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Slug</th>
-                        <th style="text-align:right;">Actions</th>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Slug') }}</th>
+                        <th style="text-align:right;">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($categories as $category)
                     <tr>
                         <td>
-                            <div style="font-weight:600;color:var(--text-main);">{{ $category->name }}</div>
+                            <div style="font-weight:600;color:var(--text-main);">{{ $category->translated_name }}</div>
                             @if($category->description)
                             <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.2rem;">{{ Str::limit($category->description, 50) }}</div>
                             @endif
                         </td>
                         <td><code style="background:#f1f5f9;padding:0.2rem 0.4rem;border-radius:4px;font-size:0.85rem;color:var(--text-muted);">{{ $category->slug }}</code></td>
                         <td style="text-align:right;">
-                            <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" onsubmit="return confirm('Delete this category? This will affect posts using it.')">
+                            <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" onsubmit="return confirm('{{ __('Delete this category?') }}')">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="btn-action danger" title="Delete">
+                                <button type="submit" class="btn-action danger" title="{{ __('Delete') }}">
                                     <i data-lucide="trash-2" style="width:16px;height:16px;"></i>
                                 </button>
                             </form>
@@ -108,7 +112,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="3" style="padding:3rem;text-align:center;color:var(--text-muted);">No categories defined yet.</td>
+                        <td colspan="3" style="padding:3rem;text-align:center;color:var(--text-muted);">{{ __('No categories defined yet.') }}</td>
                     </tr>
                     @endforelse
                 </tbody>

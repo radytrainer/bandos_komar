@@ -14,11 +14,11 @@
                 <div class="auth-logo">
                     <div class="logo-box">BK</div>
                 </div>
-                <h2>Welcome Back</h2>
-                <p>Enter your credentials to access the admin portal</p>
+                <h2>Login</h2>
+                <p>Enter your credentials to access your account</p>
             </div>
             
-            <form action="{{ route('admin.dashboard') }}" class="auth-form" id="loginForm">
+            <form action="{{ url('/login') }}" method="POST" class="auth-form" id="loginForm">
                 @csrf
                 <div class="form-group">
                     <label for="email">Email Address</label>

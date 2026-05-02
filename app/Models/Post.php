@@ -13,10 +13,28 @@ class Post extends Model
         'user_id',
         'category_id',
         'title',
+        'title_km',
         'content',
+        'content_km',
         'image',
         'status'
     ];
+
+    public function getTranslatedTitleAttribute()
+    {
+        if (app()->getLocale() === 'km' && $this->title_km) {
+            return $this->title_km;
+        }
+        return $this->title;
+    }
+
+    public function getTranslatedContentAttribute()
+    {
+        if (app()->getLocale() === 'km' && $this->content_km) {
+            return $this->content_km;
+        }
+        return $this->content;
+    }
 
     public function user()
     {

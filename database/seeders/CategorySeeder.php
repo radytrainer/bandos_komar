@@ -10,12 +10,21 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $categories = ['Technology', 'Design', 'Finance', 'Management', 'Events', 'Community'];
+        $categories = [
+            ['en' => 'Education', 'km' => 'ការអប់រំ'],
+            ['en' => 'Health', 'km' => 'សុខភាព'],
+            ['en' => 'Environment', 'km' => 'បរិស្ថាន'],
+            ['en' => 'Community', 'km' => 'សហគមន៍'],
+            ['en' => 'News', 'km' => 'ព័ត៌មាន'],
+        ];
 
-        foreach ($categories as $name) {
+        foreach ($categories as $cat) {
             Category::updateOrCreate(
-                ['slug' => Str::slug($name)],
-                ['name' => $name]
+                ['slug' => Str::slug($cat['en'])],
+                [
+                    'name' => $cat['en'],
+                    'name_km' => $cat['km']
+                ]
             );
         }
     }

@@ -5,9 +5,9 @@
 <section class="bg-bk-navy py-24 relative overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-br from-bk-navy via-bk-navy/80 to-bk-orange/20"></div>
     <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
-        <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">{{ $page->content['header']['title'] ?? 'Our Programs' }}</h1>
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">{{ $page->translated_content['header']['title'] ?? 'Our Programs' }}</h1>
         <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            {{ $page->content['header']['description'] ?? '' }}
+            {{ $page->translated_content['header']['description'] ?? '' }}
         </p>
     </div>
 </section>
@@ -18,7 +18,7 @@
         <div class="grid grid-cols-1 gap-24">
             @php
                 // For now use the programs from Home Page as example if not specifically defined for this page
-                $programs = $page->content['programs'] ?? [
+                $programs = $page->translated_content['programs'] ?? [
                     ['title' => 'Early Childhood Care', 'description' => 'Ensuring children aged 0-5 have access to quality care and early education.', 'icon' => 'book-open'],
                     ['title' => 'Primary Education', 'description' => 'Supporting local schools to improve the quality of teaching and learning.', 'icon' => 'graduation-cap'],
                 ];

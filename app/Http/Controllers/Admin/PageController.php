@@ -23,22 +23,33 @@ class PageController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'title_km' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:255',
             'meta_keywords' => 'nullable|string|max:255',
             'status' => 'required|in:published,draft',
         ]);
 
         $content = $request->input('content');
+        $content_km = $request->input('content_km');
         
-        // If content is a string (from general textarea) and looks like JSON, decode it
-        if (is_string($content) && !empty($content)) {
-            $decoded = json_decode($content, true);
-            if (json_last_error() === JSON_ERROR_NONE) {
-                $content = $decoded;
+        // Helper to handle JSON input from textarea if needed
+        $processContent = function($c) {
+            if (is_string($c) && !empty($c)) {
+                $decoded = json_decode($c, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    return $decoded;
+                }
             }
-        }
+            return $c;
+        };
 
-        $page->update(array_merge($validated, ['content' => $content]));
+        $content = $processContent($content);
+        $content_km = $processContent($content_km);
+
+        $page->update(array_merge($validated, [
+            'content' => $content,
+            'content_km' => $content_km
+        ]));
 
         return redirect()->route('admin.pages.edit', $page->slug)->with('success', 'Page updated successfully.');
     }
