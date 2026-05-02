@@ -34,7 +34,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function program()
+    public function programs()
     {
         $page = Page::where('slug', 'our-program')->first();
         return view('pages.programs', [
@@ -67,6 +67,69 @@ class HomeController extends Controller
         return view('pages.contact', [
             'page' => $page,
             'title' => $page->translated_title ?? 'Contact - Bandos Komar'
+        ]);
+    }
+
+    public function photoGallery()
+    {
+        $page = Page::where('slug', 'photo-gallery')->first();
+        return view('pages.photo-gallery', [
+            'page' => $page,
+            'title' => $page->translated_title ?? 'Photo Gallery - Bandos Komar'
+        ]);
+    }
+
+    public function videoCenter()
+    {
+        $page = Page::where('slug', 'video-center')->first();
+        return view('pages.video-center', [
+            'page' => $page,
+            'title' => $page->translated_title ?? 'Video Center - Bandos Komar'
+        ]);
+    }
+
+    public function supportUs()
+    {
+        $page = Page::where('slug', 'support-us')->first();
+        return view('pages.support-us', [
+            'page' => $page,
+            'title' => $page->translated_title ?? 'Support Us - Bandos Komar'
+        ]);
+    }
+
+    public function sponsorChild()
+    {
+        $page = Page::where('slug', 'sponsor-child')->first();
+        return view('pages.sponsor-child', [
+            'page' => $page,
+            'title' => $page->translated_title ?? 'Sponsor a Child - Bandos Komar'
+        ]);
+    }
+
+    public function waysToGive()
+    {
+        $page = Page::where('slug', 'ways-to-give')->first();
+        return view('pages.ways-to-give', [
+            'page' => $page,
+            'title' => $page->translated_title ?? 'Ways to Give - Bandos Komar'
+        ]);
+    }
+
+    public function career()
+    {
+        $page = Page::where('slug', 'career')->first();
+        return view('pages.career', [
+            'page' => $page,
+            'title' => $page->translated_title ?? 'Career - Bandos Komar'
+        ]);
+    }
+
+    public function donate()
+    {
+        $page = Page::where('slug', 'donate')->first();
+        return view('pages.donate', [
+            'page' => $page,
+            'title' => $page->translated_title ?? 'Donate - Bandos Komar'
         ]);
     }
 }
