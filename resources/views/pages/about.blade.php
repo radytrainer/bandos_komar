@@ -52,13 +52,13 @@ $whatWeDo = [
     [
         'title' => 'A gateway to a better life through inclusive education and empowerment',
         'description' => 'Bondoskomar Organization empowers underprivileged children and youth in Cambodia through education, life skills, and community support. We focus on child protection, youth development, and partnerships with families and communities—especially in rural areas. Our mission is to help young people grow with dignity, gain confidence, and actively shape a better, more inclusive future.',
-        'image' => '/assets/images/whatWeDo1.png',
+        'image' => '/assets/images/about1.png',
         'alt' => 'Empowered children in a learning environment in Cambodia'
     ],
     [
         'title' => 'Inclusive opportunities for children and youth in Cambodia',
         'description' => 'We ensure that children and youth, especially from disadvantaged backgrounds, can reach their full potential. Bondoskomar Organization provides access to quality education, life skills, and strong community support to help them grow with confidence and dignity.',
-        'image' => '/assets/images/whatWeDo2.png',
+        'image' => '/assets/images/about2.png',
         'alt' => 'Youth development program in rural Cambodia'
     ]
 ];
@@ -68,33 +68,49 @@ $strategicGoals = [
         'pillar' => 'Pillar One',
         'title' => 'Economic Development',
         'description' => 'Strengthening community livelihoods through vocational training and agricultural innovation to ensure families can support their children\'s growth and education.',
-        'image' => '/assets/images/Economic Development.png',
+        'image' => '/assets/images/about3.png',
         'color' => 'bg-bk-orange/10 text-bk-orange'
     ],
     [
         'pillar' => 'Pillar Two',
         'title' => 'Social Progress',
         'description' => 'Enhancing access to quality basic education, healthcare, and child protection services, fostering a safe environment where youth can excel.',
-        'image' => '/assets/images/Social Progress.png',
+        'image' => '/assets/images/about4.png',
         'color' => 'bg-bk-blue/10 text-bk-blue'
     ],
     [
         'pillar' => 'Pillar Three',
         'title' => 'Environmental Sustainability',
         'description' => 'Promoting climate change adaptation and disaster risk reduction to protect natural resources.',
-        'image' => '/assets/images/Environmental Sustainability.png',
+        'image' => '/assets/images/about5.png',
         'color' => 'bg-emerald-100 text-emerald-700'
     ],
 ];
 
-$partners = range(1, 15);
+$partners = [
+    '/assets/images/partner1.png',
+    '/assets/images/partner2.png',
+    '/assets/images/partner3.png',
+    '/assets/images/partner4.png',
+    '/assets/images/partner5.png',
+    '/assets/images/partner6.png',
+    '/assets/images/partner7.png',
+    '/assets/images/partner8.png',
+    '/assets/images/partner9.png',
+    '/assets/images/partner10.png',
+    '/assets/images/partner11.png',
+    '/assets/images/partner12.png',
+    '/assets/images/partner13.png',
+    '/assets/images/partner14.png',
+    '/assets/images/partner15.png'
+];
 @endphp
 
 <!-- Hero Section -->
 <header class="relative h-[600px] flex items-center overflow-hidden">
     <div class="absolute inset-0 z-0">
         <img class="w-full h-full object-cover"
-            src="/assets/images/welAbout.png"
+            src="/assets/images/hero2.png"
             alt="Panoramic view of Angkor Wat at sunrise representing Cambodia's heritage and future.">
         <div class="absolute inset-0 hero-gradient"></div>
     </div>
@@ -238,14 +254,14 @@ $partners = range(1, 15);
     <div class="flex min-w-full gap-8 px-8">
         @foreach($partners as $partner)
         <div class="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center">
-            <img src="/assets/images/partners/{{ $partner }}.png" alt="Partner {{ $partner }}">
+            <img src="{{ $partner }}" alt="Partner {{ $loop->iteration }}">
         </div>
         @endforeach
     </div>
     <div class="flex min-w-full gap-8 px-8">
         @foreach($partners as $partner)
         <div class="w-32 h-20 bg-white rounded-lg shadow-sm flex items-center justify-center">
-            <img src="/assets/images/partners/{{ $partner }}.png" alt="Partner {{ $partner }}">
+            <img src="{{ $partner }}" alt="Partner {{ $loop->iteration }}">
         </div>
         @endforeach
     </div>
