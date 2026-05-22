@@ -32,19 +32,31 @@
     );
 
     $defaultImages = [
-        'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=1200&q=80',
-        'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1200&q=80',
+        'https://www.bandoskomar.org/wp-content/uploads/2025/10/komar.png',
+        'https://www.bandoskomar.org/wp-content/uploads/2025/10/komama.jpg',
+        'https://www.bandoskomar.org/wp-content/uploads/2025/10/Bandos-Komar-org_2-1.jpg',
+        'https://www.bandoskomar.org/wp-content/uploads/2025/10/Library.jpg',
+        'https://www.bandoskomar.org/wp-content/uploads/2025/10/image-7.png',
+        'https://www.bandoskomar.org/wp-content/uploads/2025/10/image-24.png',
     ];
+
+    $heroImages = collect([$header['image'] ?? null])
+        ->merge($timeline->pluck('image'))
+        ->filter()
+        ->values();
+
+    if ($heroImages->isEmpty()) {
+        $heroImages = collect($defaultImages);
+    }
 @endphp
 
 @section('styles')
 <style>
     .history-hero {
         background: linear-gradient(145deg, #0e1c43 0%, #1f2f5f 65%, #27417a 100%);
+        min-height: 520px;
+        display: flex;
+        align-items: center;
     }
 
     .history-hero::after {
@@ -63,6 +75,31 @@
 
     .history-hero-content {
         animation: heroFadeUp 0.9s ease-out both;
+    }
+
+    .history-hero-title {
+        font-size: clamp(3rem, 8vw, 6.5rem);
+        line-height: 0.95;
+    }
+
+    @media (max-width: 767px) {
+        .history-hero {
+            min-height: 420px;
+        }
+    }
+
+    .history-hero-slide {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.9s ease;
+    }
+
+    .history-hero-slide.active {
+        opacity: 0.35;
     }
 
     .history-showcase {
@@ -130,12 +167,52 @@
         border-radius: 1rem;
         padding: 1rem;
         box-shadow: 0 16px 34px rgba(10, 24, 63, 0.18);
+        opacity: 0;
+        transform: translateY(14px);
+        pointer-events: none;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .history-slide-media:hover .history-slide-content {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
     }
 
     .history-slide-image {
         width: 100%;
         height: 32rem;
         object-fit: cover;
+    }
+
+    .history-slide-nav {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 0.65rem;
+    }
+
+    .history-slide-dot {
+        border: 1px solid rgba(18, 42, 104, 0.18);
+        border-radius: 0.9rem;
+        background: #ffffff;
+        color: #17306f;
+        padding: 0.7rem 0.6rem;
+        font-size: 0.75rem;
+        font-weight: 800;
+        line-height: 1.2;
+        transition: all 0.25s ease;
+    }
+
+    .history-slide-dot:hover {
+        border-color: rgba(246, 139, 30, 0.45);
+        transform: translateY(-2px);
+    }
+
+    .history-slide-dot.active {
+        background: linear-gradient(120deg, #f68b1e 0%, #f3a64f 100%);
+        border-color: transparent;
+        color: #ffffff;
+        box-shadow: 0 10px 20px rgba(246, 139, 30, 0.3);
     }
 
     @media (min-width: 768px) {
@@ -159,6 +236,12 @@
         .history-slide-image {
             height: 22rem;
         }
+    }
+
+    .history-slide-media.show-content .history-slide-content {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
     }
 
     .history-stat-card {
@@ -197,12 +280,19 @@
 @endsection
 
 @section('content')
-<section class="history-hero relative overflow-hidden py-20 lg:py-24">
-    <img src="{{ $header['image'] ?? '/assets/images/hero.png' }}" alt="Bandos Komar history" class="absolute inset-0 h-full w-full object-cover opacity-35">
+<section class="history-hero relative overflow-hidden py-16 lg:py-20">
+    @foreach($heroImages as $index => $heroImage)
+        <img
+            src="{{ $heroImage }}"
+            alt="Bandos Komar history {{ $index + 1 }}"
+            class="history-hero-slide {{ $index === 0 ? 'active' : '' }}"
+            data-hero-slide
+        >
+    @endforeach
     <div class="history-hero-overlay absolute inset-0"></div>
 
     <div class="history-hero-content container mx-auto px-4 md:px-6 relative z-10 text-center">
-        <h1 class="mt-2 text-4xl font-black leading-tight text-white md:text-6xl lg:text-7xl">
+        <h1 class="history-hero-title mt-2 font-black text-white">
             {{ $headerTitle ?: __('Bandos Komar History') }}
         </h1>
         <p class="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-white/90 md:text-lg">
@@ -211,7 +301,7 @@
     </div>
 </section>
 
-<section class="history-showcase py-14 md:py-20">
+<section class="history-showcase py-24 md:py-20">
     <div class="container mx-auto px-4 md:px-6">
         <div class="mx-auto mb-8 max-w-3xl text-center">
             <h2 class="text-3xl font-black text-bk-navy md:text-[2.35rem]">{{ __('Milestones of Progress') }}</h2>
@@ -245,10 +335,22 @@
                 @endforeach
             </div>
         </div>
+
+        <div class="mx-auto mt-8 mb-6 max-w-6xl md:mt-10 md:mb-8">
+            <div class="history-slide-nav" data-history-nav>
+                @foreach($timeline as $index => $item)
+                    <button type="button" class="history-slide-dot" data-slide-dot="{{ $index }}">
+                        <span class="block">{{ $item['year'] }}</span>
+                    </button>
+                @endforeach
+            </div>
+        </div>
     </div>
 </section>
 
-<section class="bg-[#ecf1fa] py-14 md:py-20">
+<section class="relative overflow-hidden bg-[#ecf1fa] pt-32 pb-14 md:pt-40 md:pb-20">
+    <div class="pointer-events-none absolute -left-16 top-10 h-44 w-44 rounded-full bg-bk-orange/10 blur-2xl"></div>
+    <div class="pointer-events-none absolute -right-12 bottom-8 h-52 w-52 rounded-full bg-bk-navy/10 blur-2xl"></div>
     <div class="container mx-auto px-4 md:px-6">
         <div class="mx-auto max-w-3xl text-center">
             <h2 class="text-3xl font-black text-bk-navy md:text-4xl">{{ __('Our Legacy Today') }}</h2>
@@ -257,7 +359,7 @@
             </p>
         </div>
 
-        <div class="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div class="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             <div class="history-stat-card rounded-2xl border border-white/80 bg-white p-8 text-center shadow-[0_18px_35px_rgba(30,45,83,0.08)]" data-history-stat>
                 <p class="text-5xl font-black text-bk-orange">10</p>
                 <p class="mt-3 text-lg font-bold text-bk-navy">{{ __('Provinces Served') }}</p>
@@ -267,6 +369,11 @@
                 <p class="text-5xl font-black text-bk-orange">36</p>
                 <p class="mt-3 text-lg font-bold text-bk-navy">{{ __('Years of Service') }}</p>
                 <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ __('Serving children and families continuously since November 1989.') }}</p>
+            </div>
+            <div class="history-stat-card rounded-2xl border border-white/80 bg-white p-8 text-center shadow-[0_18px_35px_rgba(30,45,83,0.08)]" data-history-stat>
+                <p class="text-5xl font-black text-bk-orange">1,000+</p>
+                <p class="mt-3 text-lg font-bold text-bk-navy">{{ __('Children Impacted Annually') }}</p>
+                <p class="mt-2 text-sm leading-relaxed text-slate-600">{{ __('Children and families engaged each year through education, care, and community programs.') }}</p>
             </div>
         </div>
     </div>
@@ -278,11 +385,16 @@
     (() => {
         const slides = Array.from(document.querySelectorAll('[data-slide]'));
         const slider = document.querySelector('[data-history-slider]');
+        const navDots = Array.from(document.querySelectorAll('[data-slide-dot]'));
         const statCards = document.querySelectorAll('[data-history-stat]');
+        const heroSlides = Array.from(document.querySelectorAll('[data-hero-slide]'));
+        const slideMediaItems = Array.from(document.querySelectorAll('.history-slide-media'));
 
         let currentIndex = 0;
         let autoplayTimer = null;
         const intervalMs = 5000;
+        let heroIndex = 0;
+        let heroTimer = null;
 
         if (slides.length > 0) {
             const showSlide = (index) => {
@@ -290,6 +402,9 @@
 
                 slides.forEach((slide, i) => {
                     slide.classList.toggle('active', i === currentIndex);
+                });
+                navDots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentIndex);
                 });
                 lucide.createIcons();
             };
@@ -310,6 +425,15 @@
 
             slider?.addEventListener('mouseenter', stopAutoplay);
             slider?.addEventListener('mouseleave', startAutoplay);
+            navDots.forEach((dot) => {
+                dot.addEventListener('click', () => {
+                    const index = Number(dot.dataset.slideDot);
+                    if (!Number.isNaN(index)) {
+                        showSlide(index);
+                        startAutoplay();
+                    }
+                });
+            });
 
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) {
@@ -334,6 +458,46 @@
             }, { threshold: 0.35 });
 
             statCards.forEach((card) => statObserver.observe(card));
+        }
+
+        if (heroSlides.length > 1) {
+            const showHeroSlide = (index) => {
+                heroIndex = (index + heroSlides.length) % heroSlides.length;
+                heroSlides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === heroIndex);
+                });
+            };
+
+            const startHeroAutoplay = () => {
+                if (heroTimer) clearInterval(heroTimer);
+                heroTimer = setInterval(() => showHeroSlide(heroIndex + 1), 4500);
+            };
+
+            const stopHeroAutoplay = () => {
+                if (heroTimer) {
+                    clearInterval(heroTimer);
+                    heroTimer = null;
+                }
+            };
+
+            startHeroAutoplay();
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    stopHeroAutoplay();
+                } else {
+                    startHeroAutoplay();
+                }
+            });
+        }
+
+        if (slideMediaItems.length > 0) {
+            slideMediaItems.forEach((media) => {
+                media.addEventListener('click', () => {
+                    const isOpen = media.classList.contains('show-content');
+                    slideMediaItems.forEach((item) => item.classList.remove('show-content'));
+                    if (!isOpen) media.classList.add('show-content');
+                });
+            });
         }
     })();
 </script>
