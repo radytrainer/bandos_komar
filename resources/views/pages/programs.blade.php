@@ -1,60 +1,240 @@
 @extends('layouts.app')
 
+@section('styles')
+<style>
+    #programModalPanel {
+        position: relative;
+        max-width: 760px;
+    }
+
+    .program-modal-header {
+        display: grid;
+        grid-template-columns: 2rem 1fr 2rem;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    #programModalTitle {
+        grid-column: 2;
+        padding-right: 0;
+        text-align: center;
+    }
+
+    #programModalClose {
+        grid-column: 3;
+        display: flex;
+        width: 2rem;
+        height: 2rem;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        justify-self: end;
+        border-radius: 9999px;
+        font-size: 1.6rem;
+        line-height: 1;
+    }
+
+    .program-modal-image-wrap {
+        margin-top: 2rem;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        background: #f3f4f6;
+    }
+
+    #programModalImage {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-height: 48vh;
+        object-fit: contain;
+    }
+
+    .program-card-image {
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        overflow: hidden;
+        background: #f3f4f6;
+    }
+
+    .program-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>
+@endsection
+
 @section('content')
-<!-- Page Header -->
-<section class="bg-bk-navy py-24 relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-bk-navy via-bk-navy/80 to-bk-orange/20"></div>
-    <div class="container mx-auto px-4 md:px-6 relative z-10 text-center">
-        <h1 class="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight">{{ $page->translated_content['header']['title'] ?? 'Our Programs' }}</h1>
-        <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            {{ $page->translated_content['header']['description'] ?? '' }}
-        </p>
-    </div>
-</section>
+@php
+    $defaultSections = [
+        [
+            'title' => 'Integrated Early Childhood Care and Development Program (IECCD)',
+            'text' => 'By 2029, boys and girls under 6 years old who are beneficiaries will receive care and development with potential and opportunities to continue their education at the primary level with quality, equity and inclusion education',
+            'cards' => [
+                [
+                    'title' => 'Health and Nutrition',
+                    'description' => 'Skilled birth attendance rose from 96% to 99% (2014-2022). Exclusive breastfeeding rates climbed from 65% to 80%, supporting healthier starts for young children.',
+                    'image' => 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=1400&auto=format',
+                ],
+                [
+                    'title' => 'Clean Water & Sanitation',
+                    'description' => 'Access to safe water remains a major challenge. 20% of schools lack water service entirely, and many families still need reliable hygiene support.',
+                    'image' => 'https://images.unsplash.com/photo-1508189860359-777d945909ef?q=80&w=1400&auto=format',
+                ],
+                [
+                    'title' => 'Early Learning Challenges',
+                    'description' => 'Many children fall behind in school due to poor early learning. Only 12% of 3-year-olds, 28% of 4-year-olds, and 57% of 5-year-olds access early learning.',
+                    'image' => 'https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1400&auto=format',
+                ],
+                [
+                    'title' => 'Caregiver Knowledge',
+                    'description' => 'Around 73% of children under age 3 are cared for by grandmothers with limited knowledge of early childhood care and development practices.',
+                    'image' => 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1400&auto=format',
+                ],
+            ],
+        ],
+        [
+            'title' => 'Integrated Quality Basic Education Program (IQBE)',
+            'text' => 'By 2029, girls and boys aged 6-15 in target areas have access to education with quality learning outcome and complete basic education with equity and inclusiveness',
+            'cards' => [
+                [
+                    'title' => 'Health and Nutrition',
+                    'description' => 'Skilled birth attendance rose from 96% to 99% (2014-2022). Exclusive breastfeeding rates climbed from 65% to 80%, supporting healthier starts for young children.',
+                    'image' => 'https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?q=80&w=1400&auto=format',
+                ],
+                [
+                    'title' => 'Clean Water & Sanitation',
+                    'description' => 'Access to safe water remains a major challenge. 20% of schools lack water service entirely, and many families still need reliable hygiene support.',
+                    'image' => 'https://images.unsplash.com/photo-1508189860359-777d945909ef?q=80&w=1400&auto=format',
+                ],
+            ],
+        ],
+    ];
 
-<!-- Programs Grid -->
-<section class="py-24 bg-white">
-    <div class="container mx-auto px-4 md:px-6">
-        <div class="grid grid-cols-1 gap-24">
-            @php
-                // For now use the programs from Home Page as example if not specifically defined for this page
-                $programs = $page->translated_content['programs'] ?? [
-                    ['title' => 'Early Childhood Care', 'description' => 'Ensuring children aged 0-5 have access to quality care and early education.', 'icon' => 'book-open'],
-                    ['title' => 'Primary Education', 'description' => 'Supporting local schools to improve the quality of teaching and learning.', 'icon' => 'graduation-cap'],
-                ];
-            @endphp
+    $content = $page?->translated_content ?? [];
+    $baseContent = $page?->content ?? [];
+    $sections = !empty($content['sections']) ? $content['sections'] : ($baseContent['sections'] ?? $defaultSections);
+    $pageTitle = filled($content['header']['title'] ?? null)
+        ? $content['header']['title']
+        : ($baseContent['header']['title'] ?? 'Our Program');
+@endphp
 
-            @foreach($programs as $index => $program)
-            <div class="flex flex-col {{ $index % 2 == 0 ? 'lg:flex-row' : 'lg:flex-row-reverse' }} items-center gap-16">
-                <div class="flex-1">
-                    <div class="w-20 h-20 bg-bk-navy/5 rounded-[2rem] flex items-center justify-center text-bk-navy mb-8">
-                        <i data-lucide="{{ $program['icon'] ?? 'star' }}" class="w-10 h-10"></i>
-                    </div>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-bk-navy mb-6 leading-tight">{{ $program['title'] ?? '' }}</h2>
-                    <p class="text-gray-600 text-lg mb-8 leading-relaxed">
-                        {{ $program['description'] ?? '' }}
-                    </p>
-                    <ul class="space-y-4 mb-10">
-                        <li class="flex items-center gap-3 text-bk-navy font-bold">
-                            <i data-lucide="check-circle" class="w-5 h-5 text-bk-orange"></i>
-                            Community-led initiatives
-                        </li>
-                        <li class="flex items-center gap-3 text-bk-navy font-bold">
-                            <i data-lucide="check-circle" class="w-5 h-5 text-bk-orange"></i>
-                            Sustainable impact models
-                        </li>
-                    </ul>
-                    <a href="#" class="inline-block bg-bk-navy text-white px-10 py-4 rounded-full font-extrabold hover:bg-bk-orange transition-all">Details & Impact</a>
-                </div>
-                <div class="flex-1 w-full">
-                    <div class="aspect-video bg-gray-100 rounded-[3rem] overflow-hidden shadow-2xl relative group">
-                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop" alt="Program" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        <div class="absolute inset-0 bg-gradient-to-t from-bk-navy/40 to-transparent"></div>
-                    </div>
-                </div>
-            </div>
-            @endforeach
+<section class="bg-white pt-8 pb-2 md:pt-12">
+    <div class="mx-auto max-w-[980px] px-5 md:px-6">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-[2.7rem] font-extrabold text-bk-navy leading-tight">
+                {{ $pageTitle }}
+            </h1>
         </div>
+
+        @foreach($sections as $section)
+            <div class="mx-auto mt-8 max-w-[860px] text-center">
+                <h2 class="text-2xl md:text-[1.7rem] font-extrabold text-bk-navy leading-snug">
+                    {{ $section['title'] }}
+                </h2>
+                <p class="mx-auto mt-4 max-w-[800px] text-base leading-relaxed text-bk-navy">
+                    {{ $section['text'] }}
+                </p>
+            </div>
+
+            @if(!empty($section['cards']))
+                <div class="mx-auto mt-16 grid max-w-[960px] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    @foreach($section['cards'] as $program)
+                        <article
+                            class="program-card overflow-hidden rounded-md bg-white shadow-[0_3px_12px_rgba(15,23,42,0.14)] ring-1 ring-gray-100 cursor-pointer transition-transform hover:-translate-y-1"
+                            data-title="{{ $program['title'] }}"
+                            data-description="{{ $program['full_description'] ?? $program['description'] }}"
+                            data-image="{{ Str::startsWith($program['image'], ['http://', 'https://']) 
+                                        ? $program['image'] 
+                                        : asset($program['image']) }}"
+                        >
+                            <div class="program-card-image">
+                                <img
+                                    src="{{ Str::startsWith($program['image'], ['http://', 'https://']) 
+                                            ? $program['image'] 
+                                            : asset($program['image']) }}"
+                                    alt="{{ $program['title'] }}"
+                                >
+                            </div>
+
+                            <div class="p-5">
+                                <h3 class="text-base font-extrabold text-gray-950 leading-snug">
+                                    {{ $program['title'] }}
+                                </h3>
+                                <p class="mt-3 min-h-[4.5rem] text-xs leading-relaxed text-gray-500 line-clamp-4">
+                                    {{ \Illuminate\Support\Str::limit($program['description'], 105) }}
+                                </p>
+                                <button type="button" class="program-learn-more mt-4 inline-flex items-center text-xs font-extrabold text-blue-600 hover:text-bk-orange transition-colors">
+                                    Learn More&nbsp;&rarr;
+                                </button>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            @endif
+        @endforeach
     </div>
 </section>
+
+<div id="programModal" class="fixed inset-0 z-[1100] hidden items-center justify-center bg-black/60 px-4 py-8">
+    <div id="programModalPanel" class="max-h-[90vh] w-full overflow-y-auto rounded-lg bg-white p-6 md:p-10 shadow-2xl">
+        <div class="program-modal-header">
+            <h2 id="programModalTitle" class="text-2xl md:text-3xl font-extrabold text-gray-950 leading-tight"></h2>
+            <button type="button" id="programModalClose" class="text-gray-500 hover:bg-gray-100 hover:text-bk-navy transition-colors" aria-label="Close modal">
+                &times;
+            </button>
+        </div>
+
+        <div class="program-modal-image-wrap">
+            <img id="programModalImage" src="" alt="">
+        </div>
+        <p id="programModalDescription" class="mt-8 text-lg leading-relaxed text-gray-700"></p>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script>
+    const programModal = document.getElementById('programModal');
+    const programModalPanel = document.getElementById('programModalPanel');
+    const programModalTitle = document.getElementById('programModalTitle');
+    const programModalImage = document.getElementById('programModalImage');
+    const programModalDescription = document.getElementById('programModalDescription');
+    const programModalClose = document.getElementById('programModalClose');
+
+    function openProgramModal(card) {
+        programModalTitle.textContent = card.dataset.title;
+        programModalDescription.textContent = card.dataset.description;
+        programModalImage.src = card.dataset.image;
+        programModalImage.alt = card.dataset.title;
+        programModal.classList.remove('hidden');
+        programModal.classList.add('flex');
+        document.body.classList.add('overflow-hidden');
+    }
+
+    function closeProgramModal() {
+        programModal.classList.add('hidden');
+        programModal.classList.remove('flex');
+        document.body.classList.remove('overflow-hidden');
+    }
+
+    document.querySelectorAll('.program-card').forEach((card) => {
+        card.addEventListener('click', () => openProgramModal(card));
+    });
+
+    programModalClose.addEventListener('click', closeProgramModal);
+
+    programModal.addEventListener('click', (event) => {
+        if (!programModalPanel.contains(event.target)) {
+            closeProgramModal();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !programModal.classList.contains('hidden')) {
+            closeProgramModal();
+        }
+    });
+</script>
 @endsection

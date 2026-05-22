@@ -44,7 +44,7 @@
                 </td>
                 <td style="padding: 1.25rem 1.5rem; color: #64748b; font-size: 0.9rem;">{{ $page->updated_at->format('M d, Y') }}</td>
                 <td style="padding: 1.25rem 1.5rem; text-align: right;">
-                    <a href="{{ route('admin.pages.edit', $page->id) }}" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.25rem; background: #f1f5f9; color: #1e293b; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 0.85rem; transition: all 0.2s;">
+                    <a href="{{ route('admin.pages.edit', $page->slug) }}" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.25rem; background: #f1f5f9; color: #1e293b; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 0.85rem; transition: all 0.2s;">
                         <i data-lucide="edit-3" style="width: 16px; height: 16px;"></i> Edit Page
                     </a>
                 </td>
